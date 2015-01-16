@@ -24,6 +24,12 @@ class ControlMainWindow(QtGui.QMainWindow):
         self.ui =  prettyShit.Ui_MainWindow()
         self.ui.setupUi(self)
         
+        # CONSTANTS
+        self.ALPHA = 100
+        self.PLOTDIM_X = [300, 800]
+        self.PLOTDIM_Y = [-10, 100]
+        
+        
         # Get plottable data
         self.getFilters()
         self.getDyes()
@@ -52,9 +58,6 @@ class ControlMainWindow(QtGui.QMainWindow):
         self.setupSpectraUtils()
         self.setupFilterUtils()
         self.setupPlot()
-        
-        # CONSTANTS
-        self.ALPHA = 100
         
     def getFilters(self, subfolder='/Filters/'):
         filter_path = os.getcwd()
@@ -166,7 +169,7 @@ class ControlMainWindow(QtGui.QMainWindow):
         
     def setupPlot(self):
         self.ui.graphicsView.setMouseEnabled(x=True, y=False)
-        self.ui.graphicsView.setRange(xRange=[350, 800], yRange=[-10, 100])
+        self.ui.graphicsView.setRange(xRange=self.PLOTDIM_X, yRange=self.PLOTDIM_Y)
         self.ui.graphicsView.setBackground('w')
         self.ui.graphicsView.setLabel('bottom', text='Wavelength', units='nm')
         self.ui.graphicsView.setLabel('left', text='Relative Intensity', units='AU')
@@ -284,10 +287,12 @@ class ControlMainWindow(QtGui.QMainWindow):
                               self.colorDict[self.ui.comboBox_16.currentText()])
         return True
         
-    def addFilterROI(self, leftBound, rightBound, color='k'):
-        self.ui.graphicsView.addLine(leftBound, pen=color)
-        self.ui.graphicsView.addLine(rightBound, pen=color)
-    
+    def addFilterROI(self, leftBound, rightBound, colorOpt):
+        self.ui.graphicsView.plot(np.linspace(leftBound, rightBound, 101), 
+                                  [self.PLOTDIM_Y[1]]*np.ones(101),
+                                   brush=colorOpt + (self.ALPHA,), 
+                                   fillLevel=-0.3)
+        
     def clearPlot(self):
         self.ui.graphicsView.clear()
         return True
