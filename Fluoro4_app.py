@@ -3,7 +3,7 @@
 Created on Wed Jan 14 21:03:55 2015
 
 TO GENERATE PYTHON FILE:    <pyside-uic -o Fluoro4GUI.py Fluoro4GUI.ui>
-TO RUN FROM TERMIAL:        <python GUI_fuckery.py>
+TO RUN FROM TERMIAL:        <python Fluoro4_app.py>
 
 @author: Dan
 """
